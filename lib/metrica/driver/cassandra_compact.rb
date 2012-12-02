@@ -7,6 +7,7 @@ module Metrica
 
       def initialize(options)
         @client = ::Cassandra.new(options[:keyspace], options[:servers])
+        @counter = Metrica::CassandraCompact::Counter.new(@client, COLUMN_FAMILY)
       end
     end
   end

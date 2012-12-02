@@ -1,8 +1,10 @@
 require 'active_support/concern'
-require 'metrica/driver/cassandra'
 
 module Metrica
   module Driver
+    autoload :Cassandra, 'metrica/driver/cassandra'
+    autoload :CassandraCompact, 'metrica/driver/cassandra_compact'
+    autoload :Vertica, 'metrica/driver/vertica'
   end
 
   module DriverSupport
@@ -16,6 +18,8 @@ module Metrica
             Driver::Cassandra.new(self.options)
           when :cassandra_compact
             Driver::CassandraCompact.new(self.options)
+          when :vertica
+            Driver::Vertica.new(self.options)
           else
             raise "Driver does not supported: #{self.storage}"
           end

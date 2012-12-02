@@ -30,7 +30,15 @@ module Metrica
             def include?(col)
               end_time, start_time = time
 
-              build_column(start_time).to_i <= col.to_i && build_column(end_time).to_i >= col.to_i
+              started?(start_time, col) && ended?(end_time, col)
+            end
+
+            def started?(start_time, col)
+              build_column(start_time).to_i <= col.to_i
+            end
+
+            def ended?(end_time, col)
+              build_column(end_time).to_i >= col.to_i
             end
 
             def column_key
