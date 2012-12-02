@@ -5,7 +5,7 @@ describe Metrica do
     before do
       Metrica.configure do |config|
         config.storage = :cassandra
-        config.options = { keyspace: 'test', servers: '127.0.0.1:9161' }
+        config.options = { keyspace: 'test', servers: '5.9.90.15:9160' }
       end
     end
 

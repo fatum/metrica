@@ -4,29 +4,31 @@ describe Metrica::Driver::Cassandra do
   let(:driver) do
     Metrica.configure do |config|
       config.storage = :cassandra
-      config.options = { keyspace: 'test', servers: '127.0.0.1:9161' }
+      config.options = { keyspace: 'test', servers: '5.9.90.15:9160' }
     end
 
     Metrica.driver
   end
 
   describe "#counter" do
-    context 'minute range' do
-      before { driver.counter('metric') }
+    before { driver.counter.increment('metric') }
 
-      it "should change increment metric values" do
-        response = driver.histogram('metric',
-          Time.now, 5.minutes.ago
-        )
+    %w(minutes hours).each do |time|
+      context "#{time} range" do
+        it "should change increment metric values" do
+          response = driver.counter.histogram('metric',
+            Time.now, 5.minutes.ago, time.to_sym
+          )
 
-        response.count.should > 0
+          response.count.should > 0
 
-        response.keys.each do |k|
-          k.should be_instance_of(Time)
-        end
+          response.keys.each do |k|
+            k.should be_instance_of(Time)
+          end
 
-        response.values.each do |k|
-          k.should > 0
+          response.values.each do |k|
+            k.should > 0
+          end
         end
       end
     end
