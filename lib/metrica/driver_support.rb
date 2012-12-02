@@ -11,8 +11,12 @@ module Metrica
     extend ::ActiveSupport::Concern
 
     included do
+      def self.reconnect!
+        Thread.current['driver'] = nil
+      end
+
       def self.driver
-        @@driver ||= begin
+        Thread.current['driver'] ||= begin
           case self.storage
           when :cassandra
             Driver::Cassandra.new(self.options)

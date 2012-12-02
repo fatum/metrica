@@ -18,7 +18,12 @@ action = -> {
   end
 }
 
-time = Benchmark.realtime do
-  (1..1000).each { action.call }
+threads = []
+
+10.times do |i|
+  threads << Thread.new(i) do
+    1000.times { action.call }
+  end
 end
-puts "Time elapsed #{time*1000} milliseconds"
+
+threads.each(&:join)
