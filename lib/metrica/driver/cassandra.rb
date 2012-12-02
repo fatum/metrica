@@ -10,7 +10,6 @@ module Metrica
       attr_reader :client, :counter, :schema_manager
 
       delegate :keyspace, to: :client
-
       delegate :up, :down, to: :schema_manager
 
       def initialize(options)

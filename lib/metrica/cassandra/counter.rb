@@ -1,4 +1,4 @@
-require 'metrica/cassandra/counter/handler'
+require 'metrica/cassandra/counter/type'
 
 module Metrica
   class Cassandra
@@ -16,9 +16,11 @@ module Metrica
       def histogram(metric, end_time, start_time, type = :minutes)
         handler = case type
         when :minutes
-          Handler::Minute.new(metric, [end_time, start_time])
+          Type::Minute.new(metric, [end_time, start_time])
         when :hours
-          Handler::Hour.new(metric, [end_time, start_time])
+          Type::Hour.new(metric, [end_time, start_time])
+        when :days
+          Type::Day.new(metric, [end_time, start_time])
         end
 
         handler.prepare(@client.get(@cf, handler.row_key))
@@ -31,8 +33,9 @@ module Metrica
         time = Time.at(timestamp)
 
         @client.batch do
-          persist Handler::Minute.new(metric, time), by
-          persist Handler::Hour.new(metric, time), by
+          persist Type::Minute.new(metric, time), by
+          persist Type::Hour.new(metric, time), by
+          persist Type::Day.new(metric, time), by
         end
       end
 

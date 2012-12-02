@@ -13,7 +13,7 @@ describe Metrica::Driver::Cassandra do
   describe "#counter" do
     before { driver.counter.increment('metric') }
 
-    %w(minutes hours).each do |time|
+    %w(minutes hours days).each do |time|
       context "#{time} range" do
         it "should change increment metric values" do
           response = driver.counter.histogram('metric',

@@ -14,6 +14,8 @@ module Metrica
           case self.storage
           when :cassandra
             Driver::Cassandra.new(self.options)
+          when :cassandra_compact
+            Driver::CassandraCompact.new(self.options)
           else
             raise "Driver does not supported: #{self.storage}"
           end
