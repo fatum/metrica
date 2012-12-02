@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Metrica::VERSION
 
   gem.add_dependency 'cassandra'
+  gem.add_dependency 'thrift_client', '0.8.2'
   gem.add_dependency 'activesupport', '3.2.9'
 
   gem.add_development_dependency 'rspec'
