@@ -12,25 +12,5 @@ describe Metrica::Driver::Cassandra do
 
   describe "#counter" do
     before { driver.counter.increment('metric') }
-
-    %w(minutes hours days).each do |time|
-      context "#{time} range" do
-        it "should change increment metric values" do
-          response = driver.counter.histogram('metric',
-            Time.now, 5.minutes.ago, time.to_sym
-          )
-
-          response.count.should > 0
-
-          response.keys.each do |k|
-            k.should be_instance_of(Time)
-          end
-
-          response.values.each do |k|
-            k.should > 0
-          end
-        end
-      end
-    end
   end
 end

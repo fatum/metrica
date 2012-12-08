@@ -1,4 +1,6 @@
-require 'metrica/cassandra/counter/type'
+require 'metrica/cassandra/type'
+require 'metrica/cassandra/query/offset'
+require 'metrica/cassandra/query/interval'
 
 module Metrica
   class Cassandra
@@ -8,25 +10,9 @@ module Metrica
       end
 
       def increment(metric, by = 1, time = nil)
-
         time ||= Time.new.to_i
         execute(metric, by, time)
       end
-
-      def histogram(metric, end_time, start_time, type = :minutes)
-        handler = case type
-        when :minutes
-          Type::Minute.new(metric, [end_time, start_time])
-        when :hours
-          Type::Hour.new(metric, [end_time, start_time])
-        when :days
-          Type::Day.new(metric, [end_time, start_time])
-        end
-
-        handler.prepare(@client.get(@cf, handler.row_key))
-      end
-
-    private
 
       # ex. user_id:4fg5g, 1, 1454546454
       def execute(metric, by, timestamp)
