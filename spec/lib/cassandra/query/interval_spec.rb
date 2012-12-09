@@ -14,7 +14,7 @@ describe Metrica::Cassandra::Query::Interval do
 
   before { Metrica.driver.counter.increment('metric') }
 
-  %w(minutes hours days).each do |time|
+  %w(minutes hours days months).each do |time|
     context "#{time} range" do
       it "should change increment metric values" do
         query = described_class.new(client, cf)

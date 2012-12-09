@@ -46,6 +46,26 @@ module Metrica
         end
       end
 
+      class Month
+        include Base
+
+        # rename to row
+        def row_key
+          time_loc = time.respond_to?(:each) ? time.first : time
+
+          "#{metric}|#{time_loc.strftime('%Y')}"
+        end
+
+        # rename to column
+        def build_column(t)
+          t.month
+        end
+
+        def type
+          :month
+        end
+      end
+
       class Day
         include Base
 

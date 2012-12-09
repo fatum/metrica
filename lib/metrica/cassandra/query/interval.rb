@@ -14,6 +14,8 @@ module Metrica
             Type::Hour.new(metric, [end_time, start_time])
           when :days
             Type::Day.new(metric, [end_time, start_time])
+          when :months
+            Type::Month.new(metric, [end_time, start_time])
           end
 
           # move prepare into Query::Interval

@@ -22,6 +22,7 @@ module Metrica
           persist Type::Minute.new(metric, time), by
           persist Type::Hour.new(metric, time), by
           persist Type::Day.new(metric, time), by
+          persist Type::Month.new(metric, time), by
         end
       end
 
